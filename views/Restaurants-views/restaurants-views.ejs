@@ -10,13 +10,13 @@
           <%count = count + 1%>
           <% if (count%2 === 0) { %>
             <li class = "offset-md-2 col-md-4">
-                <a href="/restaurants/theRest._id">
+                <a href="/restaurants/<%=theRest._id%>">
                     <%= theRest.name %>
                 </a>
             </li>
           <% } else { %>
             <li class = "offset-md-8 col-md-9">
-                <a href="/restaurants/theRest._id">
+                <a href="/restaurants/<%=theRest._id%>">
                     <%= theRest.name %>
                 </a>
             </li>

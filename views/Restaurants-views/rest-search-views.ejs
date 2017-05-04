@@ -1,0 +1,32 @@
+<div class="bg-faded p-4 my-4 container rest">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0"><strong>Search</strong></h2>
+    <hr class="divider">
+    <nav>
+      <ul>
+
+        <label for="">Search by:</label> <a href = "/restaurants/search/name">Name\</a>
+        <a href="/restaurants/search/cuisine"> Cuisine\</a>
+        <a href="/restaurants/search/borough">City</a>
+      </ul>
+    </nav>
+
+    <form class="" action="/restaurants/search/<%=type%>" method="post">
+<input type="" name="typeValue" value="<%=type%>">
+<input id ="search-input" type="text" name="searchValue" value="" class="butt">
+<button class="btn  btn-secondary">Search</button>
+    </form>
+
+<% if ( typeof rest !== "undefined" ){ %>
+    <% rest.forEach((oneRest) => {%>
+      <li><a href="/restaurants/<%=oneRest._id%>"> <%=oneRest.name%> <%=oneRest.grades[0]%></a></li>
+    <%});%>
+  <%}%>
+  </div>
+
+<style media="screen">
+.butt{
+height: 35px;
+width: 500px;
+}
+</style>

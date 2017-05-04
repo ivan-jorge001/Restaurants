@@ -2,6 +2,55 @@
     <hr class="divider">
     <h2 class="text-center text-lg text-uppercase my-0"><strong>Details</strong></h2>
     <hr class="divider">
-    <img class="img-fluid float-left hidden-md-down mr-lg-4" src="https://media2.giphy.com/media/DzD3ThwHcgMww/giphy.gif" alt="">
+    <img class="img-fluid float-left hidden-md-down mr-lg-4 imgrest" src="https://media2.giphy.com/media/DzD3ThwHcgMww/giphy.gif" alt="">
+    <h2><%=rest.name%></h2>
+    <ul>
+        <%=rest.address.building%>
+            <%=rest.address.street%>,
+                <%=rest.address.zipcode %>,
+                    <%=rest.borough %>
+                        <br>
+                        <label for="">Cuisine: <%=rest.cuisine %></label>
+<br>
+<br>
+<br>
 
+                        <%rest.grades.forEach((oneGrade)=>{%>
+                            <div class = "reviews">
+
+                                <label>Score(1 - 140):
+                                    <%=oneGrade.score %>
+                                </label><br>
+                                <label>Grade:
+                                    <%=oneGrade.grade %>
+                                </label><br>
+                                <label>Date:
+                                    <%=oneGrade.date %>
+                                </label>
+
+                            </div>
+                            <%}); %>
+
+    </ul>
 </div>
+<style media="screen">
+.reviews{
+  border: 1px solid #a9a7a6;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 40px;
+  margin-right: 40px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+
+
+}
+.reviews:hover{
+  border: 1px solid black;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+
+}
+    .imgrest {
+        border-radius: 10px;
+    }
+</style>
