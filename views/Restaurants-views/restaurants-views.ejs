@@ -1,0 +1,28 @@
+<div class="bg-faded p-4 my-4s container rest">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">Restaurants<strong> worth visitng</strong></h2>
+    <hr class="divider">
+
+
+    <ul>
+      <%var count = 0;%>
+        <% rest.forEach((theRest)=>{ %>
+          <%count = count + 1%>
+          <% if (count%2 === 0) { %>
+            <li class = "offset-md-2 col-md-4">
+                <a href="/restaurants/theRest._id">
+                    <%= theRest.name %>
+                </a>
+            </li>
+          <% } else { %>
+            <li class = "offset-md-8 col-md-9">
+                <a href="/restaurants/theRest._id">
+                    <%= theRest.name %>
+                </a>
+            </li>
+          <%}%>
+
+            <%  });%>
+    </ul>
+    <center><a href="/seemore">See More</a></center>
+</div>

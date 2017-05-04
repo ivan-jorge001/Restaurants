@@ -8,7 +8,7 @@ const layouts      = require('express-ejs-layouts');
 const mongoose     = require('mongoose');
 
 
-mongoose.connect('mongodb://localhost/restaurants');
+mongoose.connect('mongodb://localhost/yelp-clone');
 
 const app = express();
 
@@ -28,9 +28,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(layouts);
 
+// =============================================================================================/
 const index = require('./routes/index');
 app.use('/', index);
+const restaurants = require("./routes/rest-route");
+app.use('/',restaurants);
 
+// =============================================================================================/
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
