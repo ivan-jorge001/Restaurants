@@ -12,14 +12,13 @@
     </nav>
 
     <form class="" action="/restaurants/search/<%=type%>" method="post">
-<input type="" name="typeValue" value="<%=type%>">
 <input id ="search-input" type="text" name="searchValue" value="" class="butt">
 <button class="btn  btn-secondary">Search</button>
     </form>
 
 <% if ( typeof rest !== "undefined" ){ %>
     <% rest.forEach((oneRest) => {%>
-      <li><a href="/restaurants/<%=oneRest._id%>"> <%=oneRest.name%> <%=oneRest.grades[0]%></a></li>
+      <li><a href="/restaurants/<%=oneRest._id%>"><%=oneRest.name%></a></li>
     <%});%>
   <%}%>
   </div>

@@ -1,6 +1,7 @@
 const express = require('express');
 const restRouter = express.Router();
 const RestModel = require('../models/rest-model.js');
+const gradeModel = require('../models/grades-model.js');
 
 
 restRouter.get('/restaurants', (req, res, next) => {
@@ -22,6 +23,8 @@ restRouter.get('/restaurants/search/:cate',(req,res,next)=>{
   res.render('Restaurants-views/rest-search-views.ejs',{type:type, rest:undefined});
 });
 
+restRouter
+
 restRouter.post('/restaurants/search/:cate',(req,res,next)=>{
   console.log("it got inside the post");
   const searchBy = req.params.cate;
@@ -40,7 +43,7 @@ res.render('Restaurants-views/rest-search-views.ejs');
       next(err);
       return;
     }
-    console.log(`=================>${theRest}`);
+    console.log(`=================>${theRest[0]}`);
     res.render('Restaurants-views/rest-search-views.ejs',{
       rest:theRest,
       type:searchBy

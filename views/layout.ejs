@@ -22,22 +22,22 @@
 
     <!-- Temporary navbar container fix -->
     <style>
-    .navbar-toggler {
-        z-index: 1;
-    }
-
-    @media (max-width: 576px) {
-        nav > .container {
-            width: 100%;
+        .navbar-toggler {
+            z-index: 1;
         }
-    }
-    /* Temporary fix for img-fluid sizing within the carousel */
 
-    .carousel-item.active,
-    .carousel-item-next,
-    .carousel-item-prev {
-        display: block;
-    }
+        @media (max-width: 576px) {
+            nav>.container {
+                width: 100%;
+            }
+        }
+        /* Temporary fix for img-fluid sizing within the carousel */
+
+        .carousel-item.active,
+        .carousel-item-next,
+        .carousel-item-prev {
+            display: block;
+        }
     </style>
 
 </head>
@@ -66,27 +66,27 @@
                         <a class="nav-link text-uppercase text-expanded" href="/restaurants/search/name">Search</a>
                     </li>
                     <li class="nav-item px-lg-4">
-                        <a class="nav-link text-uppercase text-expanded" href=""></a>
+                        <a class="nav-link text-uppercase text-expanded" href="/login">Log In / Sing up</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-<%-body-%>
+    <%-body-%>
 
-    <!-- /.container -->
+        <!-- /.container -->
 
-    <footer class="bg-faded text-center py-5">
-        <div class="container">
-            <p class="m-0">Copyright &copy; Your Website 2017</p>
-        </div>
-    </footer>
+        <footer class="bg-faded text-center py-5">
+            <div class="container">
+                <p class="m-0">Copyright &copy; Your Website 2017</p>
+            </div>
+        </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/tether/tether.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/tether/tether.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 
