@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser   = require('body-parser');
 const layouts      = require('express-ejs-layouts');
 const mongoose     = require('mongoose');
-
+const session      = require('express-session');
+const passport     = require('passport');
+const User = require("../models/user-model.js");
 
 mongoose.connect('mongodb://localhost/yelp-clone');
 
@@ -27,6 +29,37 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(layouts);
+
+
+app.use(session({
+  secret:'NYC restaurants',
+  resave:true,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+//determines what to save in the session what put in the box
+passport.serializeUser((user, cb) => {
+  //only when you log in
+    cb(null, user._id);
+});
+
+//where to get the rest of the users given (what in the box)
+passport.deserializeUser((userId, cb) => {
+  //callled every time AFTER LOG IN
+  //querying the database with the id
+    User.findById(userId, (err, theUser) => {
+        if (err) {
+            cb(err);
+            return;
+        }
+        // we are sending user info to passport
+        cb(null, theUser);
+    });
+});
+
+
 
 // =============================================================================================/
 const index = require('./routes/index');
