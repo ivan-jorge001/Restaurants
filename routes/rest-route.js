@@ -23,7 +23,9 @@ restRouter.get('/restaurants/search/:cate',(req,res,next)=>{
   res.render('Restaurants-views/rest-search-views.ejs',{type:type, rest:undefined});
 });
 
-restRouter
+restRouter.get('/login',(req,res,next)=>{
+  res.render('Restaurants-views/rest-login-views.ejs');
+});
 
 restRouter.post('/restaurants/search/:cate',(req,res,next)=>{
   console.log("it got inside the post");
