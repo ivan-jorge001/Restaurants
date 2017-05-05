@@ -8,7 +8,7 @@ const layouts      = require('express-ejs-layouts');
 const mongoose     = require('mongoose');
 const session      = require('express-session');
 const passport     = require('passport');
-const User = require("../models/user-model.js");
+const User = require("./models/user-model.js");
 
 mongoose.connect('mongodb://localhost/yelp-clone');
 
@@ -66,6 +66,9 @@ const index = require('./routes/index');
 app.use('/', index);
 const restaurants = require("./routes/rest-route");
 app.use('/',restaurants);
+const UserRoute = require("./routes/user-route");
+app.use('/user',UserRoute);
+
 
 // =============================================================================================/
 // catch 404 and forward to error handler

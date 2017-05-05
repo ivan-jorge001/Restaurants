@@ -1,0 +1,46 @@
+<%if(typeof errorMessage !== 'undefined'){%>
+  <div class="error"><p><%=errorMessage%></p></div>
+<%}%>
+
+<div class="bg-faded p-4 my-4 container rest">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">Restaurants<strong>worth visitng</strong></h2>
+    <hr class="divider">
+    <center><form class="" action="/signup" method="post">
+      <br>
+        <label for="input-name">Name:</label>
+        <input id="input-name" type="text" name="nameValue" value="">
+
+        <label for="input-lastname">Lastname:</label>
+        <input id="input-lastname" type="text" name="lastnameValue" value="">
+
+        <br>
+        <label for="input-username">Username:</label>
+        <input id="input-username" type="text" name="usernameValue" value="">
+
+        <label for="input-password">Password:</label>
+        <input id="input-password" type="password" name="passwordValue" value="">
+        <br>
+
+        <label for="input-email">Email:</label>
+        <input id="input-email" type="email" name="emailValue" value="">
+        <br>
+<button class="btn btn-default">Sign Up</button>
+    </form></center>
+    <center><span>Already have an account ?</span> <a href="/user/login">Log In</a></center>
+</div>
+<style media="screen">
+#input-email{
+  width: 440px;
+}
+input{
+  margin:10px;
+}
+#input-username{
+  width: 200px;
+}
+/*#input-lastname{
+  margin-right: 40px;
+}*/
+
+</style>

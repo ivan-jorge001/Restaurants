@@ -19,7 +19,8 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        match:/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
     }
 },{timestamps:true});
 const Users = mongoose.model('Users', userSchema);
