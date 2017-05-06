@@ -2,6 +2,18 @@ const express = require('express');
 const userRouter = express.Router();
 const User = require('../models/user-model.js');
 const bcrypt = require('bcrypt');
+const passport = require('passport');
+
+
+userRouter.get('/login',(req,res,next)=>{
+  res.render('');
+});
+
+
+
+
+
+
 
 
 userRouter.get('/signup', (req, res, next) => {

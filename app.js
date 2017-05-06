@@ -36,7 +36,23 @@ app.use(session({
   resave:true,
   saveUninitialized: true
 }));
+//log in ========================== what does it do
+passport.use(new LocalStrategy((username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
 
+    return next(null, user);
+  });
+}));
+//==============================================
 app.use(passport.initialize());
 app.use(passport.session());
 //determines what to save in the session what put in the box
