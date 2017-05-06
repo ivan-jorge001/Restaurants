@@ -11,14 +11,18 @@ userRouter.get('/signup', (req, res, next) => {
 userRouter.post('/signup', (req, res, next) => {
     const userName = req.body.usernameValue;
     const password = req.body.passwordValue;
-
-    if (!username || !password) {
+console.log("first===================================================");
+    if (!userName || !password) {
         res.render('user/user-signup-views.ejs', {
-            errorMessage: 'Please provide a password and a Username'
+            errorMessage: ['Please provide a password and a Username'],
+              validationerror:undefined
         });
+        return;
     }
+    console.log("second===================================================");
+
     if (userName) {
-        userModel.findOne({
+        User.findOne({
                 username: userName
             }, {
                 username: 1
@@ -28,28 +32,45 @@ userRouter.post('/signup', (req, res, next) => {
                     next(err);
                     return;
                 }
-                res.render('user/user-signup-views.ejs', {
-                    errorMessage: 'Please select another User name yours is already on use'
-                });
+                if (theUser) {
+                  res.render('user/user-signup-views.ejs', {
+                      errorMessage: ['Please select another User name yours is already on use'],
+                      validationerror:undefined
+                  });
+                  return;
+                }
             });
     }
 
     if (password.length < 6 || password.lenght > 33) {
-      res.render('user/user-signup-views.ejs', {
-          errorMessage: 'Please provie a password beteween 6-32 characters'
-      });
-      return;
+        res.render('user/user-signup-views.ejs', {
+            errorMessage: ['Please provie a password beteween 6-32 characters']
+        });
+        return;
     }
-const salt = bcrypt.genSaltSync();
-const hashPass = bcrypt.hashSync(password,salt);
-const newUser = new User({
-  name:req.body.nameValue,
-  lastname:req.body.lastnameValue,
-  email:req.body.emailValue,
-  username:userName,
-  password:password,
-});
-    res.redirect('user/user-signup-views.ejs');
+    console.log("go in the saving the user");
+    const salt = bcrypt.genSaltSync();
+    const hashPass = bcrypt.hashSync(password, salt);
+    const newUser = new User({
+        name: req.body.nameValue,
+        lastname: req.body.lastnameValue,
+        email: req.body.emailValue,
+        username: userName,
+        password: hashPass,
+    });
+    newUser.save((err) => {
+      console.log(`this is the err ======================================================= ${err}`);
+        if (err) {
+          console.log(`this is the newUser.errors ======================================================= ${newUser.error}`);
+            res.render('user/user-signup-views.ejs', {
+                validationErrors: newUser.errors,
+                errorMessage:undefined
+            });
+
+        }
+
+        res.redirect('/');
+    });
 });
 
 
