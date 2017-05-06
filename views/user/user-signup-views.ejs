@@ -10,15 +10,7 @@
       <%});%>
     <%}%>
 
-    <%if (typeof validationErrors !== 'undefined'){%>
 
-      <ul>
-          <%for (key in validationErrors){ %>
-            
-        <li> <%= validationErrors[key].message%></li>
-      </ul>
-      <%} %>
-          <%} %>
     <center><form class="" action="/user/signup" method="post">
       <br>
         <label for="input-name">Name:</label>

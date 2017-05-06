@@ -11,11 +11,11 @@ userRouter.get('/signup', (req, res, next) => {
 userRouter.post('/signup', (req, res, next) => {
     const userName = req.body.usernameValue;
     const password = req.body.passwordValue;
-console.log("first===================================================");
-    if (!userName || !password) {
+    console.log("first===================================================");
+    if (!userName || !password || !req.body.nameValue || !req.body.emailValue || !req.body.lastnameValue) {
         res.render('user/user-signup-views.ejs', {
             errorMessage: ['Please provide a password and a Username'],
-              validationerror:undefined
+            validationerror: undefined
         });
         return;
     }
@@ -33,11 +33,11 @@ console.log("first===================================================");
                     return;
                 }
                 if (theUser) {
-                  res.render('user/user-signup-views.ejs', {
-                      errorMessage: ['Please select another User name yours is already on use'],
-                      validationerror:undefined
-                  });
-                  return;
+                    res.render('user/user-signup-views.ejs', {
+                        errorMessage: ['Please select another User name yours is already on use'],
+                        validationerror: undefined
+                    });
+                    return;
                 }
             });
     }
@@ -47,6 +47,11 @@ console.log("first===================================================");
             errorMessage: ['Please provie a password beteween 6-32 characters']
         });
         return;
+    }
+    if (/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(password) === false) {
+        res.render('user/user-signup-views.ejs', {
+            errorMessage: ['Please make sure your password has at least one number one lower case and special characters']
+        });
     }
     console.log("go in the saving the user");
     const salt = bcrypt.genSaltSync();
@@ -59,14 +64,10 @@ console.log("first===================================================");
         password: hashPass,
     });
     newUser.save((err) => {
-      console.log(`this is the err ======================================================= ${err}`);
         if (err) {
-          console.log(`this is the newUser.errors ======================================================= ${newUser.error}`);
-            res.render('user/user-signup-views.ejs', {
-                validationErrors: newUser.errors,
-                errorMessage:undefined
-            });
-
+          console.log("itshere");
+            next(err);
+            return;
         }
 
         res.redirect('/');

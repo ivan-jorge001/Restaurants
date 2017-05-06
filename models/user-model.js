@@ -19,7 +19,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        match:/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
+        // match:/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
         required: [ true,'Please make sure your password has at least one number one lower case and special characters']
     }
 },{timestamps:true});
