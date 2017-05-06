@@ -1,16 +1,16 @@
-const express      = require('express');
-const path         = require('path');
-const favicon      = require('serve-favicon');
-const logger       = require('morgan');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
 const cookieParser = require('cookie-parser');
-const bodyParser   = require('body-parser');
-const layouts      = require('express-ejs-layouts');
-const mongoose     = require('mongoose');
-const session      = require('express-session');
-const passport     = require('passport');
+const bodyParser = require('body-parser');
+const layouts = require('express-ejs-layouts');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const passport = require('passport');
 const User = require("./models/user-model.js");
 const LocalStrategy = require("passport-local").Strategy;
-
+const bcrypt = require('bcrypt');
 mongoose.connect('mongodb://localhost/yelp-clone');
 
 const app = express();
@@ -26,46 +26,60 @@ app.locals.title = 'Express - Generated with IronGenerator';
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(layouts);
 
 
 app.use(session({
-  secret:'NYC restaurants',
-  resave:true,
-  saveUninitialized: true
+    secret: 'NYC restaurants',
+    resave: true,
+    saveUninitialized: true
 }));
 //log in ========================== what does it do
-passport.use(new LocalStrategy((username, password, next) => {
-  User.findOne({ username }, (err, user) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return next(null, false, { message: "Incorrect username" });
-    }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return next(null, false, { message: "Incorrect password" });
-    }
+passport.use(new LocalStrategy((userName, passWord, next) => {
+    console.log('------------------------------------');
+    console.log({
+        userName,
+        passWord
+    });
 
-    return next(null, user);
-  });
+    User.findOne({
+        username: userName
+    }, (err, user) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return next(null, false, {
+                message: "Incorrect username"
+            });
+        }
+        if (!bcrypt.compareSync(passWord, user.password)) {
+            return next(null, false, {
+                message: "Incorrect password"
+            });
+        }
+        next(null, user);
+        return;
+    });
 }));
 //==============================================
 app.use(passport.initialize());
 app.use(passport.session());
 //determines what to save in the session what put in the box
 passport.serializeUser((user, cb) => {
-  //only when you log in
+    //only when you log in
     cb(null, user._id);
 });
 
 //where to get the rest of the users given (what in the box)
 passport.deserializeUser((userId, cb) => {
-  //callled every time AFTER LOG IN
-  //querying the database with the id
+    //callled every time AFTER LOG IN
+    //querying the database with the id
     User.findById(userId, (err, theUser) => {
         if (err) {
             cb(err);
@@ -76,34 +90,40 @@ passport.deserializeUser((userId, cb) => {
     });
 });
 
+app.use((req, res, next) => {
+    if (req.user) {
+        res.locals.user = req.user;
+    }
+    next();
+});
 
 
 // =============================================================================================/
 const index = require('./routes/index');
 app.use('/', index);
 const restaurants = require("./routes/rest-route");
-app.use('/',restaurants);
+app.use('/', restaurants);
 const UserRoute = require("./routes/user-route");
-app.use('/user',UserRoute);
+app.use('/user', UserRoute);
 
 
 // =============================================================================================/
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;

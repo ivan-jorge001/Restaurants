@@ -10,12 +10,12 @@ userRouter.get('/login', (req, res, next) => {
     res.render('user/user-login-views.ejs');
 });
 
-authRoutes.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "/login",
-  failureFlash: true,
-  passReqToCallback: true
-}));
+userRouter.post("/login",passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/user/login'
+    }
+
+));
 
 
 
@@ -70,6 +70,7 @@ userRouter.post('/signup', (req, res, next) => {
         res.render('user/user-signup-views.ejs', {
             errorMessage: ['Please make sure your password has at least one number one lower case and special characters']
         });
+        return;
     }
     console.log("go in the saving the user");
     const salt = bcrypt.genSaltSync();
