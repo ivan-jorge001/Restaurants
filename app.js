@@ -9,6 +9,7 @@ const mongoose     = require('mongoose');
 const session      = require('express-session');
 const passport     = require('passport');
 const User = require("./models/user-model.js");
+const LocalStrategy = require("passport-local").Strategy;
 
 mongoose.connect('mongodb://localhost/yelp-clone');
 

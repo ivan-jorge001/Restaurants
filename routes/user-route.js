@@ -3,13 +3,19 @@ const userRouter = express.Router();
 const User = require('../models/user-model.js');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const ensureLogin = require("connect-ensure-login");
 
 
-userRouter.get('/login',(req,res,next)=>{
-  res.render('');
+userRouter.get('/login', (req, res, next) => {
+    res.render('user/user-login-views.ejs');
 });
 
-
+authRoutes.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
 
 
 
@@ -77,7 +83,7 @@ userRouter.post('/signup', (req, res, next) => {
     });
     newUser.save((err) => {
         if (err) {
-          console.log("itshere");
+            console.log("itshere");
             next(err);
             return;
         }
