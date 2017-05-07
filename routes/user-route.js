@@ -6,11 +6,11 @@ const passport = require('passport');
 const ensureLogin = require("connect-ensure-login");
 
 
-userRouter.get('/login', (req, res, next) => {
+userRouter.get('/login', ensure.ensureNotLoggedIn('/'),(req, res, next) => {
     res.render('user/user-login-views.ejs');
 });
 
-userRouter.post("/login",passport.authenticate('local', {
+userRouter.post("/login",ensure.ensureNotLoggedIn('/'),passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/user/login'
     }
@@ -22,11 +22,11 @@ userRouter.post("/login",passport.authenticate('local', {
 
 
 
-userRouter.get('/signup', (req, res, next) => {
+userRouter.get('/signup',ensure.ensureNotLoggedIn('/'),(req, res, next) => {
     res.render('user/user-signup-views.ejs');
 });
 
-userRouter.post('/signup', (req, res, next) => {
+userRouter.post('/signup', ensure.ensureNotLoggedIn('/'),(req, res, next) => {
     const userName = req.body.usernameValue;
     const password = req.body.passwordValue;
     console.log("first===================================================");
