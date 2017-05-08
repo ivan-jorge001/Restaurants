@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const User = require('../models/user-model.js');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const ensureLogin = require("connect-ensure-login");
+const ensure = require("connect-ensure-login");
 
 
 userRouter.get('/login', ensure.ensureNotLoggedIn('/'),(req, res, next) => {
