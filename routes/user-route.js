@@ -66,12 +66,12 @@ userRouter.post('/signup', ensure.ensureNotLoggedIn('/'),(req, res, next) => {
         });
         return;
     }
-    if (/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(password) === false) {
-        res.render('user/user-signup-views.ejs', {
-            errorMessage: ['Please make sure your password has at least one number one lower case and special characters']
-        });
-        return;
-    }
+    // if (/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(password) === false) {
+    //     res.render('user/user-signup-views.ejs', {
+    //         errorMessage: ['Please make sure your password has at least one number one lower case and special characters']
+    //     });
+    //     return;
+    // }
     console.log("go in the saving the user");
     const salt = bcrypt.genSaltSync();
     const hashPass = bcrypt.hashSync(password, salt);
