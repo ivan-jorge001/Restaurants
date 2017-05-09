@@ -32,6 +32,15 @@
                             <%}); %>
 
     </ul>
+<%if(user){%>
+  <div class = "reviews">
+      <label for = "score">Score(1 - 140):</label> <input id="score" name="scoreValue" value=""><br>
+      <label for = "grades">Grade:</label> <input id="grades" name="gradesValue" value=""><br>
+
+  </div>
+<%}%>
+
+
 </div>
 <style media="screen">
 .reviews{
