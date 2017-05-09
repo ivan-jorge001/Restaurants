@@ -2,7 +2,33 @@ const express = require('express');
 const restRouter = express.Router();
 const RestModel = require('../models/rest-model.js');
 const gradeModel = require('../models/grades-model.js');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
+const ensure = require("connect-ensure-login");
 
+
+restRouter.get('/add-restaurants', ensure.ensureLoggedIn('/'), (req, res, next) => {
+    res.render('user/add-rest-view.ejs');
+});
+
+restRouter.post('/add-restaurants', ensure.ensureLoggedIn('/'), (req, res, next) => {
+    const newrest = new RestModel({
+name: req.body.nameValue,
+'address.building': req.body.buildingValue,
+'address.street': req.body.streetValue,
+'address.zipcode': req.body.boroughValue,
+borough: req.body.zipcodeValue,
+cuisine: req.body.cuisineValue
+    });
+    newrest.save((err)=>{
+      if (err) {
+        console.log('you have and error while saving object');
+        next(err);
+        return;
+      }
+      res.redirect("/");
+    });
+});
 
 
 restRouter.get('/restaurants', (req, res, next) => {
