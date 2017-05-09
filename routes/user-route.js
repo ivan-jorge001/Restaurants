@@ -5,7 +5,9 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const ensure = require("connect-ensure-login");
 
-
+userRouter.get('/add-restaurants',(req,res,next)=>{
+res.render('user/add-rest-view.ejs');
+});
 userRouter.get('/login', ensure.ensureNotLoggedIn('/'), (req, res, next) => {
     res.render('user/user-login-views.ejs');
 });
