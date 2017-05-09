@@ -6,27 +6,52 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const ensure = require("connect-ensure-login");
 
+restRouter.post('/new/review/rest/:id',ensure.ensureLoggedIn('/'), (req, res, next) => {
+    console.log('i am in here ================================');
+    const restId = req.params.id;
 
+    RestModel.findById(restId, (err, theRest) => {
+        if (err) {
+            console.log('rest-route.js line 15 finding by id to add a new review');
+            next(err);
+            return;
+        }
+        const newGrade = new gradeModel({
+            grade: req.body.gradeValue,
+            score: req.body.scoreValue
+        });
+        theRest.grades.push(newGrade);
+        theRest.save((err)=>{
+          if (err) {
+            console.log('Error saving the review rest-routes');
+            next(err);
+            return;
+          }
+          res.redirect(`/restaurants/${theRest._id}`);
+        });
+    });
+
+});
 restRouter.get('/add-restaurants', ensure.ensureLoggedIn('/'), (req, res, next) => {
     res.render('user/add-rest-view.ejs');
 });
 
 restRouter.post('/add-restaurants', ensure.ensureLoggedIn('/'), (req, res, next) => {
     const newrest = new RestModel({
-name: req.body.nameValue,
-'address.building': req.body.buildingValue,
-'address.street': req.body.streetValue,
-'address.zipcode': req.body.boroughValue,
-borough: req.body.zipcodeValue,
-cuisine: req.body.cuisineValue
+        name: req.body.nameValue,
+        'address.building': req.body.buildingValue,
+        'address.street': req.body.streetValue,
+        'address.zipcode': req.body.boroughValue,
+        borough: req.body.zipcodeValue,
+        cuisine: req.body.cuisineValue
     });
-    newrest.save((err)=>{
-      if (err) {
-        console.log('you have and error while saving object');
-        next(err);
-        return;
-      }
-      res.redirect("/");
+    newrest.save((err) => {
+        if (err) {
+            console.log('you have and error while saving object');
+            next(err);
+            return;
+        }
+        res.redirect("/");
     });
 });
 
@@ -53,7 +78,7 @@ restRouter.get('/restaurants/search/:cate', (req, res, next) => {
     });
 });
 
-restRouter.get('/login', (req, res, next) => {
+restRouter.get('/login',ensure.ensureNotLoggedIn('/'), (req, res, next) => {
     res.render('Restaurants-views/rest-login-views.ejs');
 });
 
