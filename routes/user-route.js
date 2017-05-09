@@ -17,6 +17,12 @@ userRouter.post("/login", ensure.ensureNotLoggedIn('/'), passport.authenticate('
 
 ));
 
+userRouter.get('/logout', ensure.ensureLoggedIn('/'), (req, res, next) => {
+
+    req.logout();
+    res.redirect('/');
+});
+
 
 
 
